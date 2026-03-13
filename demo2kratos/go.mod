@@ -6,7 +6,9 @@ require (
 	github.com/brianvoe/gofakeit/v7 v7.14.1
 	github.com/go-kratos/kratos/v2 v2.9.2
 	github.com/google/wire v0.7.0
+	github.com/robfig/cron/v3 v3.0.1
 	github.com/yylego/done v0.0.0
+	github.com/yylego/kratos-cron v0.0.0
 	github.com/yylego/kratos-ebz v0.0.0
 	github.com/yylego/must v0.0.0
 	github.com/yylego/rese v0.0.0
