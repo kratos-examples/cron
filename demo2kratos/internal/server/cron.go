@@ -1,17 +1,17 @@
 package server
 
 import (
+	"log/slog"
 	"time"
 
-	"github.com/go-kratos/kratos/v2/log"
 	"github.com/robfig/cron/v3"
 	"github.com/yylego/kratos-cron/cronkratos"
 	"github.com/yylego/kratos-examples/demo2kratos/internal/service"
 )
 
-// NewCronServer creates a new cron server and registers cron jobs with locker
-// 创建新的 cron server 并注册带锁的定时任务
-func NewCronServer(cronService *service.CronService, logger log.Logger) *cronkratos.Server {
+// NewCronServer creates a new cron server and registers cron jobs with stage locking
+// 创建新的 cron server 并注册带 stage 读锁协调的定时任务
+func NewCronServer(cronService *service.CronService, logger *slog.Logger) *cronkratos.Server {
 	srv := cronkratos.NewServer(
 		cron.New(
 			cron.WithSeconds(),
@@ -19,6 +19,6 @@ func NewCronServer(cronService *service.CronService, logger log.Logger) *cronkra
 		),
 		logger,
 	)
-	cronkratos.RegisterCronServerL(srv, cronService)
+	cronService.RegisterCron(srv)
 	return srv
 }

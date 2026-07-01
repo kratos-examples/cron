@@ -1,9 +1,9 @@
 package server
 
 import (
+	"log/slog"
 	"time"
 
-	"github.com/go-kratos/kratos/v2/log"
 	"github.com/robfig/cron/v3"
 	"github.com/yylego/kratos-cron/cronkratos"
 	"github.com/yylego/kratos-examples/demo1kratos/internal/service"
@@ -11,7 +11,7 @@ import (
 
 // NewCronServer creates a new cron server and registers cron jobs
 // 创建新的 cron server 并注册定时任务
-func NewCronServer(cronService *service.CronService, logger log.Logger) *cronkratos.Server {
+func NewCronServer(cronService *service.CronService, logger *slog.Logger) *cronkratos.Server {
 	srv := cronkratos.NewServer(
 		cron.New(
 			cron.WithSeconds(),
@@ -19,6 +19,6 @@ func NewCronServer(cronService *service.CronService, logger log.Logger) *cronkra
 		),
 		logger,
 	)
-	cronkratos.RegisterCronServer(srv, cronService)
+	cronService.RegisterCron(srv)
 	return srv
 }

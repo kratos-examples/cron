@@ -2,24 +2,24 @@ package biz
 
 import (
 	"context"
+	"log/slog"
 	"time"
 
-	"github.com/go-kratos/kratos/v2/errors"
-	"github.com/go-kratos/kratos/v2/log"
+	"github.com/go-kratos/kratos/v3/errors"
 	pb "github.com/yylego/kratos-examples/demo1kratos/api/student"
 )
 
 // TaskUsecase handles scheduled task business logic
 // 处理定时任务的业务逻辑
 type TaskUsecase struct {
-	slog *log.Helper
+	slog *slog.Logger
 }
 
 // NewTaskUsecase creates a new TaskUsecase instance
 // 创建新的 TaskUsecase 实例
-func NewTaskUsecase(logger log.Logger) *TaskUsecase {
+func NewTaskUsecase(logger *slog.Logger) *TaskUsecase {
 	return &TaskUsecase{
-		slog: log.NewHelper(logger),
+		slog: logger,
 	}
 }
 
@@ -41,7 +41,7 @@ func (uc *TaskUsecase) syncOnce(ctx context.Context) *errors.Error {
 	if ctx.Err() != nil {
 		return pb.ErrorUnknown("context error=%v", ctx.Err())
 	}
-	uc.slog.WithContext(ctx).Infof("syncOnce executed at %s", time.Now().Format(time.RFC3339))
+	uc.slog.InfoContext(ctx, "syncOnce executed", "time", time.Now().Format(time.RFC3339))
 	return nil
 }
 
@@ -51,6 +51,6 @@ func (uc *TaskUsecase) CleanupData(ctx context.Context) *errors.Error {
 	if ctx.Err() != nil {
 		return pb.ErrorUnknown("context error=%v", ctx.Err())
 	}
-	uc.slog.WithContext(ctx).Infof("CleanupData executed at %s", time.Now().Format(time.RFC3339))
+	uc.slog.InfoContext(ctx, "CleanupData executed", "time", time.Now().Format(time.RFC3339))
 	return nil
 }
