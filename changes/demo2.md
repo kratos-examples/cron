@@ -5,7 +5,7 @@ Code differences compared to source project.
 ## cmd/demo2kratos/main.go (+3 -1)
 
 ```diff
-@@ -13,6 +13,7 @@
+@@ -14,6 +14,7 @@
  	"github.com/go-kratos/kratos/v3/transport/grpc"
  	"github.com/go-kratos/kratos/v3/transport/http"
  	"github.com/yylego/done"
@@ -13,7 +13,7 @@ Code differences compared to source project.
  	"github.com/yylego/kratos-examples/demo2kratos/internal/conf"
  	"github.com/yylego/must"
  	"github.com/yylego/rese"
-@@ -34,7 +35,7 @@
+@@ -33,7 +34,7 @@
  	flag.StringVar(&flagconf, "conf", "./configs", "config path, eg: -conf config.yaml")
  }
  
@@ -22,7 +22,7 @@ Code differences compared to source project.
  	return kratos.New(
  		kratos.ID(done.VCE(os.Hostname()).Omit()),
  		kratos.Name(Name),
-@@ -44,6 +45,7 @@
+@@ -43,6 +44,7 @@
  		kratos.Server(
  			gs,
  			hs,
@@ -35,7 +35,7 @@ Code differences compared to source project.
 ## cmd/demo2kratos/wire_gen.go (+4 -1)
 
 ```diff
-@@ -36,7 +36,10 @@
+@@ -32,7 +32,10 @@
  	articleService := service.NewArticleService(articleUsecase)
  	grpcServer := server.NewGRPCServer(confServer, articleService, logger)
  	httpServer := server.NewHTTPServer(confServer, articleService, logger)
@@ -166,12 +166,15 @@ Code differences compared to source project.
 ## internal/server/server.go (+1 -1)
 
 ```diff
-@@ -5,4 +5,4 @@
+@@ -7,7 +7,7 @@
  )
  
  // ProviderSet is server providers.
 -var ProviderSet = wire.NewSet(NewGRPCServer, NewHTTPServer)
 +var ProviderSet = wire.NewSet(NewGRPCServer, NewHTTPServer, NewCronServer)
+ 
+ // validateRequiredFields rejects a request whose fields marked (google.api.field_behavior) = REQUIRED are unset
+ func validateRequiredFields(req any) error {
 ```
 
 ## internal/service/cron.go (+47 -0)
