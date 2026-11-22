@@ -216,7 +216,7 @@ Code differences compared to source project.
 +		} else {
 +			s.slog.Info("sync data task success")
 +		}
-+	}))
++	}, cronkratos.WithName("sync-data")))
 +
 +	// Cleanup data every second, lock via stage
 +	// 每秒清理数据，用 stage 加锁
@@ -226,7 +226,7 @@ Code differences compared to source project.
 +		} else {
 +			s.slog.Info("cleanup data task success")
 +		}
-+	}))
++	}, cronkratos.WithName("cleanup-data")))
 +}
 ```
 

@@ -33,7 +33,7 @@ func (s *CronService) RegisterCron(srv *cronkratos.Server) {
 		} else {
 			s.slog.Info("sync data task success")
 		}
-	}))
+	}, cronkratos.WithName("sync-data")))
 
 	// Cleanup data every second
 	// 每秒清理数据
@@ -43,5 +43,5 @@ func (s *CronService) RegisterCron(srv *cronkratos.Server) {
 		} else {
 			s.slog.Info("cleanup data task success")
 		}
-	}))
+	}, cronkratos.WithName("cleanup-data")))
 }
